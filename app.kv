@@ -1,0 +1,1963 @@
+#:set cor_fundo 0.92, 0.96, 1, 1
+#:set cor_primaria 0.01, 0.45, 0.89, 1
+#:set cor_texto 0, 0, 0, 1
+
+<Button>:
+    background_color: cor_primaria
+    color: (1, 1, 1, 1)
+    padding: [10, 5]
+    font_size: "14sp"
+
+<TextInput>:
+    padding: [10, 10]
+    background_color: (1, 1, 1, 1)
+    foreground_color: cor_texto
+    canvas.before:
+        Color:
+            rgba: cor_primaria
+        Line:
+            width: 1
+            rectangle: (self.x, self.y, self.width, self.height)
+
+<Label>:
+    color: cor_texto
+
+<TabbedPanelItem>:
+    color: (1, 1, 1, 1)
+
+
+<RootWidget>:
+    orientation: "vertical"
+    padding: 5
+    spacing: 5
+    canvas.before:
+        Color:
+            rgba: cor_fundo
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    # =========================
+    # TOPO
+    # =========================
+    BoxLayout:
+        size_hint_y: None
+        height: "90dp"
+        spacing: 10
+        padding: 5
+
+        # Seção de Perfil (esquerda) - Clicável
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_x: None
+            width: "90dp"
+            spacing: 3
+
+            Image:
+                source: "VendaX.png"
+                size_hint_y: 0.8
+
+            Button:
+                text: "Perfil"
+                font_size: "12sp"
+                size_hint_y: 0.2
+                background_color: (0.92, 0.96, 1, 1)
+                color: cor_texto
+                bold: True
+                on_release: root.abrir_perfil()
+
+        # Título principal (centro)
+        Label:
+            text: "[b]CONTROLE DE VENDAS[/b]"
+            markup: True
+            font_size: "18sp"
+            color: cor_texto
+            bold: True
+
+    TabbedPanel:
+        id: tab_panel
+        do_default_tab: True
+        default_tab: login_tab
+
+        # =========================
+        # LOGIN
+        # =========================
+        TabbedPanelItem:
+            id: login_tab
+            text: "Login"
+            color: (1, 1, 1, 1)
+
+            ScrollView:
+                size_hint: 1, 1
+                
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        text: "[b]ENTRAR NO SISTEMA[/b]"
+                        markup: True
+                        size_hint_y: None
+                        height: "40dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "18sp"
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    TextInput:
+                        id: login_usuario_input
+                        hint_text: "Usuário"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        focus_next: login_senha_input
+
+                    TextInput:
+                        id: login_senha_input
+                        hint_text: "Senha"
+                        password: True
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        on_text_validate: root.fazer_login()
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    Button:
+                        text: "ENTRAR"
+                        size_hint_y: None
+                        height: "50dp"
+                        font_size: "16sp"
+                        bold: True
+                        background_color: cor_primaria
+                        color: (1, 1, 1, 1)
+                        on_release: root.fazer_login()
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    Button:
+                        text: "ENTRAR COM DIGITAL"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (0.2, 0.7, 0.2, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: root.login_com_digital()
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "20dp"
+
+                    Button:
+                        text: "CRIAR NOVA CONTA"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (0.5, 0.5, 0.5, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: root.ir_para_cadastro()
+
+                    # Mensagem de erro
+                    Label:
+                        id: login_erro_label
+                        text: ""
+                        size_hint_y: None
+                        height: "30dp"
+                        color: (1, 0, 0, 1)
+                        font_size: "12sp"
+                        text_size: (self.width - 20, None)
+
+        # =========================
+        # CADASTRO
+        # =========================
+        TabbedPanelItem:
+            id: cadastro_tab
+            text: "Cadastro"
+            color: (1, 1, 1, 1)
+
+            ScrollView:
+                size_hint: 1, 1
+                
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 20
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        text: "[b]CRIAR CONTA[/b]"
+                        markup: True
+                        size_hint_y: None
+                        height: "40dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "18sp"
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    TextInput:
+                        id: cadastro_usuario_input
+                        hint_text: "Novo usuário"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        focus_next: cadastro_email_input
+
+                    TextInput:
+                        id: cadastro_email_input
+                        hint_text: "Email (para recuperar senha)"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        focus_next: cadastro_nome_input
+
+                    TextInput:
+                        id: cadastro_nome_input
+                        hint_text: "Nome completo"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        focus_next: cadastro_senha_input
+
+                    TextInput:
+                        id: cadastro_senha_input
+                        hint_text: "Senha"
+                        password: True
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        focus_next: cadastro_senha_confirma_input
+
+                    TextInput:
+                        id: cadastro_senha_confirma_input
+                        hint_text: "Confirmar senha"
+                        password: True
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        on_text_validate: root.criar_conta()
+
+                    # Checkbox para autenticação por digital
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "45dp"
+                        spacing: 10
+                        padding: 10
+
+                        CheckBox:
+                            id: cadastro_biometria_check
+                            size_hint_x: 0.15
+
+                        Label:
+                            text: "Usar autenticação por digital"
+                            size_hint_x: 0.85
+                            color: (0, 0, 0, 1)
+                            font_size: "13sp"
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    Button:
+                        text: "REGISTRAR"
+                        size_hint_y: None
+                        height: "50dp"
+                        font_size: "16sp"
+                        bold: True
+                        background_color: cor_primaria
+                        color: (1, 1, 1, 1)
+                        on_release: root.fazer_cadastro()
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "20dp"
+
+                    Button:
+                        text: "VOLTAR PARA LOGIN"
+                        size_hint_y: None
+                        height: "45dp"
+                        font_size: "14sp"
+                        background_color: (0.5, 0.5, 0.5, 1)
+                        color: (1, 1, 1, 1)
+                        on_release: root.ir_para_login()
+
+                    # Mensagem
+                    Label:
+                        id: cadastro_mensagem_label
+                        text: ""
+                        size_hint_y: None
+                        height: "30dp"
+                        color: (1, 0, 0, 1)
+                        font_size: "12sp"
+                        text_size: (self.width - 20, None)
+
+        # =========================
+        # CLIENTES
+        # =========================
+        TabbedPanelItem:
+            id: tab_clientes
+            text: "Clientes"
+            color: (1, 1, 1, 1)
+            disabled: True
+
+            ScrollView:
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 8
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)  # Fundo branco
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    TextInput:
+                        id: cliente_nome_input
+                        hint_text: "Nome *"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+
+                    TextInput:
+                        id: cliente_telefone_input
+                        hint_text: "Telefone"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        input_filter: "float"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 3
+
+                        TextInput:
+                            id: cliente_cep_input
+                            hint_text: "CEP"
+                            size_hint_x: 0.7
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+
+                        Button:
+                            text: "Buscar CEP"
+                            size_hint_x: 0.3
+                            font_size: "11sp"
+                            background_color: cor_primaria
+                            color: (1, 1, 1, 1)
+                            on_release: root.buscar_cep()
+
+                    TextInput:
+                        id: cliente_endereco_input
+                        hint_text: "Rua/Avenida"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 3
+
+                        TextInput:
+                            id: cliente_numero_input
+                            hint_text: "Número"
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+
+                        TextInput:
+                            id: cliente_bairro_input
+                            hint_text: "Bairro"
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+
+                    TextInput:
+                        id: cliente_cidade_input
+                        hint_text: "Cidade"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+
+                    Button:
+                        id: cliente_salvar_button
+                        text: "Salvar Cliente"
+                        size_hint_y: None
+                        height: "45dp"
+                        background_color: cor_primaria
+                        color: (1, 1, 1, 1)
+                        on_release: root.add_cliente_ui()
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        padding: 5
+
+                        Label:
+                            text: f"Total de clientes: {len(root.clientes)}"
+                            font_size: "14sp"
+                            bold: True
+                            color: (0, 0, 0, 1)
+
+                    TextInput:
+                        id: cliente_search_input
+                        hint_text: "Pesquisar cliente (nome, endereço, bairro, cidade, telefone)"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        multiline: False
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        on_text: root.filtrar_clientes(self.text)
+
+                    Label:
+                        text: "Clientes cadastrados:"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "13sp"
+
+                    # ========== LISTA ==========
+                    GridLayout:
+                        id: clientes_list_box
+                        cols: 1
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 5
+                        padding: 5
+        TabbedPanelItem:
+            id: tab_produtos
+            text: "Produtos"
+            color: (1, 1, 1, 1)
+            disabled: True
+
+            ScrollView:
+                do_scroll_x: False
+                do_scroll_y: True
+                scroll_type: ['bars']
+                bar_width: '10dp'
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 8
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)  # Fundo branco
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    # ========== FORMULÁRIO DE CADASTRO ==========
+                    TextInput:
+                        id: produto_nome_input
+                        hint_text: "Nome do produto *"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        readonly: False
+                        disabled: False
+                        focus_next: produto_preco_input
+                        allow_copy: True
+                        allow_paste: True
+                        allow_undo: True
+                        write_tab: False
+
+                    TextInput:
+                        id: produto_preco_input
+                        hint_text: "Preço (10.50)"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        input_filter: "float"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        readonly: False
+                        disabled: False
+                        focus_next: produto_codigo_input
+                        allow_copy: True
+                        allow_paste: True
+                        allow_undo: True
+                        write_tab: False
+
+                    TextInput:
+                        id: produto_codigo_input
+                        hint_text: "Código barras"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        readonly: False
+                        disabled: False
+                        focus_next: produto_estoque_input
+                        allow_copy: True
+                        allow_paste: True
+                        allow_undo: True
+                        write_tab: False
+
+                    TextInput:
+                        id: produto_estoque_input
+                        hint_text: "Estoque (opcional - deixe vazio para não controlar)"
+                        size_hint_y: None
+                        height: "35dp"
+                        font_size: "12sp"
+                        input_filter: "float"
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        multiline: False
+                        readonly: False
+                        disabled: False
+                        focus_next: produto_qtd1_input
+                        on_text_validate: root.add_produto_ui()
+                        allow_copy: True
+                        allow_paste: True
+                        allow_undo: True
+                        write_tab: False
+
+                    # ========== VARIAÇÕES DE PREÇO ==========
+                    Label:
+                        text: "[b]Variações de preço (opcional)[/b]"
+                        markup: True
+                        size_hint_y: None
+                        height: "30dp"
+                        color: (0, 0, 0, 1)
+                        font_size: "13sp"
+                        bold: True
+
+                    # Container para variações (sempre visível)
+                    BoxLayout:
+                        id: variacoes_container
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: "200dp"
+                        spacing: 5
+
+                        # Variação 1
+                        BoxLayout:
+                            size_hint_y: None
+                            height: "35dp"
+                            spacing: 5
+
+                            TextInput:
+                                id: produto_qtd1_input
+                                hint_text: "Qtd min"
+                                size_hint_x: 0.4
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_preco1_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                            TextInput:
+                                id: produto_preco1_input
+                                hint_text: "Preço"
+                                size_hint_x: 0.6
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_qtd2_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                        # Variação 2
+                        BoxLayout:
+                            size_hint_y: None
+                            height: "35dp"
+                            spacing: 5
+
+                            TextInput:
+                                id: produto_qtd2_input
+                                hint_text: "Qtd min"
+                                size_hint_x: 0.4
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_preco2_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                            TextInput:
+                                id: produto_preco2_input
+                                hint_text: "Preço"
+                                size_hint_x: 0.6
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_qtd3_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                        # Variação 3
+                        BoxLayout:
+                            size_hint_y: None
+                            height: "35dp"
+                            spacing: 5
+
+                            TextInput:
+                                id: produto_qtd3_input
+                                hint_text: "Qtd min"
+                                size_hint_x: 0.4
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_preco3_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                            TextInput:
+                                id: produto_preco3_input
+                                hint_text: "Preço"
+                                size_hint_x: 0.6
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_qtd4_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                        # Variação 4
+                        BoxLayout:
+                            size_hint_y: None
+                            height: "35dp"
+                            spacing: 5
+
+                            TextInput:
+                                id: produto_qtd4_input
+                                hint_text: "Qtd min"
+                                size_hint_x: 0.4
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_preco4_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                            TextInput:
+                                id: produto_preco4_input
+                                hint_text: "Preço"
+                                size_hint_x: 0.6
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_qtd5_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                        # Variação 5
+                        BoxLayout:
+                            size_hint_y: None
+                            height: "35dp"
+                            spacing: 5
+
+                            TextInput:
+                                id: produto_qtd5_input
+                                hint_text: "Qtd min"
+                                size_hint_x: 0.4
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_preco5_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                            TextInput:
+                                id: produto_preco5_input
+                                hint_text: "Preço"
+                                size_hint_x: 0.6
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                font_size: "11sp"
+                                multiline: False
+                                readonly: False
+                                disabled: False
+                                on_text: root.calcular_preco_por_variacao()
+                                focus_next: produto_busca_input
+                                allow_copy: True
+                                allow_paste: True
+                                allow_undo: True
+                                write_tab: False
+
+                    Button:
+                        id: btn_salvar_produto
+                        text: "Salvar Produto"
+                        size_hint_y: None
+                        height: "38dp"
+                        font_size: "12sp"
+                        background_color: cor_primaria
+                        color: (1, 1, 1, 1)
+                        always_release: True
+                        disabled: False
+                        on_release: root.add_produto_ui()
+
+                    # ========== PESQUISA ==========
+                    TextInput:
+                        id: produto_busca_input
+                        hint_text: "🔍 Pesquisar produtos..."
+                        size_hint_y: None
+                        height: "40dp"
+                        multiline: False
+                        background_color: (1, 1, 1, 1)
+                        foreground_color: (0, 0, 0, 1)
+                        on_text: root.filtrar_produtos(self.text)
+                        focus_next: produto_nome_input
+                        on_text_validate: root.filtrar_produtos(self.text)
+
+                    Label:
+                        text: "Produtos cadastrados:"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "13sp"
+
+                    # ========== LISTA ==========
+                    GridLayout:
+                        id: produtos_list_box
+                        cols: 1
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 5
+                        padding: 5
+
+        # =========================
+        # VENDA
+        # =========================
+        TabbedPanelItem:
+            id: tab_venda
+            text: "Venda"
+            color: (1, 1, 1, 1)
+            disabled: True
+            on_touch_down: root.on_tab_venda_enter()
+
+            ScrollView:
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 8
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)  # Fundo branco
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    # ========== CLIENTE ==========
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 0
+
+                        TextInput:
+                            id: clientes_search
+                            hint_text: "👤 CLIENTE (Digite nome ou ID do cliente)"
+                            size_hint_y: None
+                            height: "35dp"
+                            multiline: False
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            on_text: root.buscar_cliente_autocomplete(self.text)
+                            on_focus: root.mostrar_sugestoes_cliente(self, self.focus)
+                            on_touch_down: root.mostrar_sugestoes_cliente(self, True)
+                            focus_next: produtos_search
+
+                        ScrollView:
+                            id: clientes_sugestoes_scroll
+                            size_hint_y: None
+                            height: 0
+                            opacity: 0
+
+                            GridLayout:
+                                id: clientes_sugestoes_list
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                spacing: 1
+
+                    # ========== PRODUTO ==========
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 0
+
+                        TextInput:
+                            id: produtos_search
+                            hint_text: "📦 PRODUTO (Digite nome ou ID do produto)"
+                            size_hint_y: None
+                            height: "35dp"
+                            multiline: False
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            on_text: root.buscar_produto_autocomplete(self.text)
+                            on_focus: root.mostrar_sugestoes_produto(self, self.focus)
+                            on_touch_down: root.mostrar_sugestoes_produto(self, True)
+                            on_text_validate: root.buscar_produto_autocomplete(self.text)
+
+                        ScrollView:
+                            id: produtos_sugestoes_scroll
+                            size_hint_y: None
+                            height: 0
+                            opacity: 0
+
+                            GridLayout:
+                                id: produtos_sugestoes_list
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                spacing: 1
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "42dp"
+                        spacing: 4
+
+                        BoxLayout:
+                            size_hint_x: 0.65
+                            spacing: 2
+
+                            Button:
+                                text: "➖"
+                                size_hint_x: 0.25
+                                background_color: cor_primaria
+                                color: (1, 1, 1, 1)
+                                font_size: "12sp"
+                                on_release: root.decrementar_quantidade()
+
+                            TextInput:
+                                id: quantidade_input
+                                text: "1"
+                                hint_text: "Qtd"
+                                input_filter: "float"
+                                multiline: False
+                                size_hint_x: 0.5
+                                halign: "center"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+
+                            Button:
+                                text: "➕"
+                                size_hint_x: 0.25
+                                background_color: cor_primaria
+                                color: (1, 1, 1, 1)
+                                font_size: "12sp"
+                                on_release: root.incrementar_quantidade()
+
+                        Button:
+                            text: "➕ Adicionar"
+                            size_hint_x: 0.35
+                            background_color: cor_primaria
+                            color: (1, 1, 1, 1)
+                            font_size: "12sp"
+                            on_release: root.add_item_to_pedido()
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: 3
+                        spacing: 3
+                        canvas.before:
+                            Color:
+                                rgba: (1, 1, 1, 1)  # Fundo branco
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                        ScrollView:
+                            do_scroll_x: False
+                            do_scroll_y: True
+                            size_hint_y: None
+                            height: 200  # Altura fixa para o scroll
+
+                            GridLayout:
+                                id: itens_box
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                spacing: 4
+                                padding: 4
+
+                    # RESUMO DOS ITENS
+                    Label:
+                        id: itens_resumo
+                        text: "Nenhum item adicionado"
+                        size_hint_y: None
+                        height: "30dp"
+                        font_size: "14sp"
+                        color: (0, 0, 0, 1)
+                        halign: "left"
+                        text_size: (self.width, None)
+                        padding: [10, 5]
+
+                    # =========================
+                    # RODAPÉ (TOTAL + PAGAMENTO)
+                    # =========================
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: "110dp"
+                        spacing: 5
+                        canvas.before:
+                            Color:
+                                rgba: (1, 1, 1, 1)  # Fundo branco
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                        Label:
+                            id: pedido_total
+                            text: "TOTAL: R$ 0.00"
+                            font_size: "20sp"
+                            bold: True
+                            color: (0, 0, 0, 1)
+
+                        BoxLayout:
+                            spacing: 5
+
+                            Spinner:
+                                id: pagamento_spinner
+                                text: "Dinheiro"
+                                values: ["Dinheiro", "PIX", "Cartão", "Cheque", "Boleto"]
+                                size_hint_x: 0.4
+                                halign: 'center'
+                                background_color: cor_primaria
+                                color: (1, 1, 1, 1)
+
+                            Button:
+                                text: "Limpar"
+                                background_color: cor_primaria
+                                color: (1, 1, 1, 1)
+                                on_release: root._limpar_pedido()
+
+                            Button:
+                                text: "Salvar Pedido"
+                                background_color: cor_primaria
+                                color: (1, 1, 1, 1)
+                                on_release: root.finalizar_venda()
+
+                            Button:
+                                text: "Compartilhar Comprovante"
+                                background_color: (0.1, 0.8, 0.1, 1)
+                                color: (1, 1, 1, 1)
+                                on_release: root.compartilhar_comprovante()
+
+        # =========================
+        # COMISSÃO
+        # =========================
+        TabbedPanelItem:
+            id: comissao_tab
+            text: "Comissão"
+            color: (1, 1, 1, 1)
+            disabled: True
+            on_touch_down: root.on_tab_comissao_enter()
+
+            ScrollView:
+                do_scroll_x: False
+                do_scroll_y: True
+                scroll_type: ['bars']
+                bar_width: '10dp'
+
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 5
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 8
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        text: "Resumo de Comissão"
+                        size_hint_y: None
+                        height: "30dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "16sp"
+
+                    Label:
+                        id: vendedor_label
+                        text: "Vendedor: -"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        font_size: "14sp"
+                        bold: True
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Label:
+                            text: "Total de Vendas:"
+                            size_hint_x: 0.5
+                            color: (0, 0, 0, 1)
+                            bold: True
+
+                        Label:
+                            id: total_vendas_label
+                            text: "R$ 0.00"
+                            size_hint_x: 0.5
+                            color: (0.1, 0.6, 0.1, 1)
+                            bold: True
+                            font_size: "14sp"
+
+                    Label:
+                        text: "Filtro por Período:"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "12sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Button:
+                            text: "📅 Data Inicial"
+                            size_hint_x: 0.5
+                            on_press: root.abrir_calendario_inicio()
+
+                        Label:
+                            id: filtro_data_inicio_label
+                            text: "--/--/----"
+                            size_hint_x: 0.5
+                            color: (0.2, 0.2, 0.2, 1)
+                            bold: True
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Button:
+                            text: "📅 Data Final"
+                            size_hint_x: 0.5
+                            on_press: root.abrir_calendario_fim()
+
+                        Label:
+                            id: filtro_data_fim_label
+                            text: "--/--/----"
+                            size_hint_x: 0.5
+                            color: (0.2, 0.2, 0.2, 1)
+                            bold: True
+
+                    Button:
+                        text: "🔍 Filtrar Vendas"
+                        size_hint_y: None
+                        height: "45dp"
+                        background_color: (0.01, 0.45, 0.89, 1)
+                        on_press: root.filtrar_vendas_por_periodo()
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Label:
+                            text: "Comissão Calculada (Auto):"
+                            size_hint_x: 0.5
+                            color: (0, 0, 0, 1)
+                            bold: True
+
+                        Label:
+                            id: comissao_label
+                            text: "R$ 0.00"
+                            size_hint_x: 0.5
+                            color: (0.1, 0.6, 0.1, 1)
+                            bold: True
+                            font_size: "14sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Label:
+                            text: "Porcentagem (%): "
+                            size_hint_x: 0.5
+                            color: (0, 0, 0, 1)
+                            bold: True
+
+                        BoxLayout:
+                            size_hint_x: 0.5
+                            spacing: 0
+
+                            TextInput:
+                                id: comissao_percentual_input
+                                hint_text: "Ex: 5"
+                                input_filter: "float"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                size_hint_x: 0.85
+                                on_text: root.calcular_comissao_percentual(self.text)
+
+                            Label:
+                                text: "%"
+                                size_hint_x: 0.15
+                                color: (0, 0, 0, 1)
+                                bold: True
+                                font_size: "14sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 5
+
+                        Label:
+                            text: "Comissão Calculada:"
+                            size_hint_x: 0.5
+                            color: (0, 0, 0, 1)
+                            bold: True
+
+                        Label:
+                            id: comissao_calculada_label
+                            text: "R$ 0.00"
+                            size_hint_x: 0.5
+                            color: (0.1, 0.6, 0.1, 1)
+                            bold: True
+                            font_size: "14sp"
+
+                    Label:
+                        text: "Recebimentos Programados:"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "12sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 5
+
+                        Label:
+                            text: "1º Recebimento:"
+                            size_hint_x: 0.3
+                            color: (0, 0, 0, 1)
+                            bold: True
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_1_data_input
+                            hint_text: "Data"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_1_valor_input
+                            hint_text: "Valor"
+                            input_filter: "float"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 5
+
+                        Label:
+                            text: "2º Recebimento:"
+                            size_hint_x: 0.3
+                            color: (0, 0, 0, 1)
+                            bold: True
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_2_data_input
+                            hint_text: "Data"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_2_valor_input
+                            hint_text: "Valor"
+                            input_filter: "float"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 5
+
+                        Label:
+                            text: "3º Recebimento:"
+                            size_hint_x: 0.3
+                            color: (0, 0, 0, 1)
+                            bold: True
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_3_data_input
+                            hint_text: "Data"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_3_valor_input
+                            hint_text: "Valor"
+                            input_filter: "float"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "35dp"
+                        spacing: 5
+
+                        Label:
+                            text: "4º Recebimento:"
+                            size_hint_x: 0.3
+                            color: (0, 0, 0, 1)
+                            bold: True
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_4_data_input
+                            hint_text: "Data"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                        TextInput:
+                            id: recebimento_4_valor_input
+                            hint_text: "Valor"
+                            input_filter: "float"
+                            size_hint_x: 0.35
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            font_size: "11sp"
+
+                    Button:
+                        text: "Salvar Comissão e Recebimentos"
+                        size_hint_y: None
+                        height: "45dp"
+                        background_color: cor_primaria
+                        color: (1, 1, 1, 1)
+                        on_release: root.salvar_comissao_vendedor()
+
+                    Label:
+                        text: "Vendas Cadastradas:"
+                        size_hint_y: None
+                        height: "25dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "13sp"
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "25dp"
+                        spacing: 5
+                        padding: 5
+
+                        Label:
+                            text: "Data"
+                            size_hint_x: 0.2
+                            color: (0.3, 0.3, 0.3, 1)
+                            bold: True
+                            font_size: "10sp"
+
+                        Label:
+                            text: "Pedido"
+                            size_hint_x: 0.15
+                            color: (0.3, 0.3, 0.3, 1)
+                            bold: True
+                            font_size: "10sp"
+
+                        Label:
+                            text: "Cliente"
+                            size_hint_x: 0.35
+                            color: (0.3, 0.3, 0.3, 1)
+                            bold: True
+                            font_size: "10sp"
+
+                        Label:
+                            text: "Total"
+                            size_hint_x: 0.3
+                            color: (0.3, 0.3, 0.3, 1)
+                            bold: True
+                            font_size: "10sp"
+
+                    GridLayout:
+                        id: vendas_comissao_list_box
+                        cols: 1
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 3
+                        padding: 5
+
+        # =========================
+        # PEDIDOS
+        # =========================
+        TabbedPanelItem:
+            id: tab_pedidos
+            text: "Pedidos"
+            color: (1, 1, 1, 1)
+            disabled: True
+
+            BoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 1)  # Fundo branco
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                # Campo de busca por cliente
+                BoxLayout:
+                    size_hint_y: None
+                    height: "50dp"
+                    padding: 10
+                    spacing: 10
+                    canvas.before:
+                        Color:
+                            rgba: (0.95, 0.95, 0.95, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        text: "🔍 Buscar Cliente:"
+                        size_hint_x: 0.2
+                        font_size: "14sp"
+                        bold: True
+                        color: (0.2, 0.2, 0.2, 1)
+
+                    TextInput:
+                        id: pedidos_busca_cliente
+                        hint_text: "Digite o nome do cliente..."
+                        multiline: False
+                        size_hint_x: 0.6
+                        font_size: "14sp"
+                        background_color: (1, 1, 1, 1)
+                        on_text: root.filtrar_pedidos_por_cliente()
+
+                    Button:
+                        text: "Limpar"
+                        size_hint_x: 0.2
+                        background_color: (0.7, 0.7, 0.7, 1)
+                        on_press: root.limpar_filtro_pedidos()
+
+                # Tabela de pedidos
+                ScrollView:
+                    GridLayout:
+                        id: pedidos_list_box
+                        cols: 1
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: 1
+                        padding: 5
+
+        # =========================
+        # INVENTÁRIO
+        # =========================
+        TabbedPanelItem:
+            id: tab_inventario
+            text: "Inventário"
+            color: (1, 1, 1, 1)
+            disabled: True
+
+            BoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                # Sub-abas do inventário
+                TabbedPanel:
+                    size_hint_y: 0.9
+                    do_default_tab: False
+
+                    # Sub-aba: Estoque Atual
+                    TabbedPanelItem:
+                        text: "Estoque Atual"
+                        color: (0, 0, 0, 1)
+
+                        ScrollView:
+                            GridLayout:
+                                id: inventario_list_box
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                spacing: 2
+                                padding: 5
+
+                    # Sub-aba: Produtos Mais Vendidos
+                    TabbedPanelItem:
+                        text: "Mais Vendidos"
+                        color: (0, 0, 0, 1)
+
+                        ScrollView:
+                            GridLayout:
+                                id: mais_vendidos_list_box
+                                cols: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                spacing: 2
+                                padding: 5
+
+                # Botão de atualizar
+                BoxLayout:
+                    size_hint_y: 0.1
+                    padding: 5
+
+                    Button:
+                        text: "Atualizar Inventário"
+                        background_color: (0.2, 0.6, 0.2, 1)
+                        color: (1, 1, 1, 1)
+                        font_size: "14sp"
+                        on_release: root.atualizar_inventario()
+
+        # =========================
+        # PERFIL (OCULTA)
+        # =========================
+        TabbedPanelItem:
+            id: tab_perfil
+            text: "Perfil"
+            color: (1, 1, 1, 1)
+            disabled: True
+
+            ScrollView:
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 10
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: 15
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    Label:
+                        text: "[b]EDITAR PERFIL[/b]"
+                        markup: True
+                        size_hint_y: None
+                        height: "35dp"
+                        color: (0, 0, 0, 1)
+                        bold: True
+                        font_size: "16sp"
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "5dp"
+
+                    # Grid com campos editáveis
+                    GridLayout:
+                        cols: 2
+                        spacing: 8
+                        size_hint_y: None
+                        height: "400dp"
+
+                        Label:
+                            text: "[b]Usuário:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_usuario_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            readonly: True  # Usuário não pode alterar
+
+                        Label:
+                            text: "[b]Nome:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_nome_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+
+                        Label:
+                            text: "[b]Email:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_email_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+
+                        Label:
+                            text: "[b]CPF:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_cpf_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]RG:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_rg_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]CEP:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 35
+                            spacing: 5
+
+                            TextInput:
+                                id: perfil_cep_input
+                                text: ""
+                                size_hint_x: 0.7
+                                font_size: "12sp"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                multiline: False
+                                hint_text: "Opcional"
+
+                            Button:
+                                text: "Buscar"
+                                size_hint_x: 0.3
+                                font_size: "10sp"
+                                background_color: (0.3, 0.6, 0.9, 1)
+                                color: (1, 1, 1, 1)
+                                on_release: root.buscar_cep_perfil()
+
+                        Label:
+                            text: "[b]Endereço:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_endereco_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Número:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_numero_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Complemento:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_complemento_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Bairro:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_bairro_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Cidade:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_cidade_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Estado:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        TextInput:
+                            id: perfil_estado_input
+                            text: ""
+                            size_hint_y: None
+                            height: 35
+                            font_size: "12sp"
+                            background_color: (1, 1, 1, 1)
+                            foreground_color: (0, 0, 0, 1)
+                            multiline: False
+                            hint_text: "Opcional"
+
+                        Label:
+                            text: "[b]Foto:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 35
+                            spacing: 5
+
+                            TextInput:
+                                id: perfil_foto_input
+                                text: ""
+                                size_hint_x: 0.7
+                                font_size: "12sp"
+                                background_color: (1, 1, 1, 1)
+                                foreground_color: (0, 0, 0, 1)
+                                multiline: False
+                                hint_text: "Opcional"
+                                readonly: True
+
+                            Button:
+                                text: "Selecionar"
+                                size_hint_x: 0.3
+                                font_size: "10sp"
+                                background_color: (0.3, 0.6, 0.9, 1)
+                                color: (1, 1, 1, 1)
+                                on_release: root.selecionar_foto_perfil()
+
+                        Label:
+                            text: "[b]Digital:[/b]"
+                            markup: True
+                            size_hint_y: None
+                            height: 35
+                            color: (0, 0, 0, 1)
+                            font_size: "12sp"
+
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 35
+                            spacing: 5
+
+                            CheckBox:
+                                id: perfil_digital_check
+                                size_hint_x: 0.3
+
+                            Label:
+                                text: "Habilitada"
+                                size_hint_x: 0.7
+                                color: (0, 0, 0, 1)
+                                font_size: "12sp"
+
+                    # Espaço
+                    Label:
+                        size_hint_y: None
+                        height: "10dp"
+
+                    # Botões
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "40dp"
+                        spacing: 8
+
+                        Button:
+                            text: "Salvar"
+                            background_color: (0.2, 0.6, 0.2, 1)
+                            color: (1, 1, 1, 1)
+                            font_size: "12sp"
+                            on_release: root.salvar_perfil()
+
+                        Button:
+                            text: "Logout"
+                            background_color: (0.7, 0.2, 0.2, 1)
+                            color: (1, 1, 1, 1)
+                            font_size: "12sp"
+                            on_release: root.fazer_logout()
+
+                        Button:
+                            text: "Voltar"
+                            background_color: (0.5, 0.5, 0.5, 1)
+                            color: (1, 1, 1, 1)
+                            font_size: "12sp"
+                            on_release: root.fechar_perfil()
+
+    # =========================
+    # STATUS BAR
+    BoxLayout:
+        size_hint_y: None
+        height: "35dp"
+        padding: 5
+        canvas.before:
+            Color:
+                rgba: cor_primaria
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Label:
+            id: status_label
+            text: root.status_log
+            size_hint_y: 1
+            color: (1, 1, 1, 1)
+            font_size: "12sp"
+            color: (1, 1, 1, 1)

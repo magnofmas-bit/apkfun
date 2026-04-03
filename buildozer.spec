@@ -26,9 +26,11 @@ osx_requirements = python3,kivy
 permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, ACCESS_NETWORK_STATE
 android.bootstrap = sdl2
 android.logcat_filters =  *:S python:D
-android.api = 34
+
+# 🔥 CORRIGIDO AQUI
+android.api = 33
 android.minapi = 21
-android.targetsdk = 34
+android.targetsdk = 33
 android.ndk = r25b
 android.archs = arm64-v8a
 android.gradle_dependencies = 
@@ -70,10 +72,13 @@ android.entrypoint = org.kivy.android.PythonActivity
 android.release_artifact = apk
 android.gradle_version = 7.6.3
 android.gradle_options = org.gradle.jvmargs=-Xmx4096m
-android.compileskdversion = 34
+
+# 🔥 CORRIGIDO AQUI
+android.compilesdkversion = 33
 
 # Storage
 android.apk_dir = bin
 
-env.JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64
-env.ANDROID_HOME = /home/usermagno/.android/android-sdk
+# ❌ REMOVIDO (IMPORTANTE — NÃO COLOCAR DE VOLTA)
+# env.JAVA_HOME
+# env.ANDROID_HOME

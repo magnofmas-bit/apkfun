@@ -1,4 +1,4 @@
-name: Build APK
+name: Criar APK
 
 on:
   push:
@@ -16,16 +16,16 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y python3-pip git zip unzip openjdk-17-jdk wget
+        pip install --upgrade pip
         pip install buildozer cython
 
-    - name: Instalar Android SDK
+    - name: Instalar o SDK do Android
       run: |
         mkdir -p $HOME/android-sdk/cmdline-tools
         cd $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
         unzip tools.zip
         mv cmdline-tools latest
-
         echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
         echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
 
@@ -33,13 +33,14 @@ jobs:
       run: |
         yes | sdkmanager --licenses
 
-    - name: Instalar Build Tools
+    - name: Instalar SDK e Build Tools
       run: |
+        sdkmanager --update
         sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
 
     - name: Rodar Buildozer
       run: |
-        buildozer android debug
+        buildozer -v android debug
 
     - name: Salvar APK
       uses: actions/upload-artifact@v4

@@ -10,13 +10,17 @@ jobs:
 
     steps:
     - name: Baixar código
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Instalar dependências
       run: |
         sudo apt update
         sudo apt install -y python3-pip git zip unzip openjdk-17-jdk
         pip install buildozer cython
+
+    - name: Aceitar licenças Android
+      run: |
+        yes | sdkmanager --licenses || true
 
     - name: Rodar Buildozer
       run: |

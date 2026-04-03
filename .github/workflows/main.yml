@@ -15,12 +15,27 @@ jobs:
     - name: Instalar dependências
       run: |
         sudo apt update
-        sudo apt install -y python3-pip git zip unzip openjdk-17-jdk
+        sudo apt install -y python3-pip git zip unzip openjdk-17-jdk wget
         pip install buildozer cython
 
-    - name: Aceitar licenças Android
+    - name: Instalar Android SDK
       run: |
-        yes | sdkmanager --licenses || true
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        cd $HOME/android-sdk/cmdline-tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
+        unzip tools.zip
+        mv cmdline-tools latest
+
+        echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
+
+    - name: Aceitar licenças
+      run: |
+        yes | sdkmanager --licenses
+
+    - name: Instalar Build Tools
+      run: |
+        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
 
     - name: Rodar Buildozer
       run: |
